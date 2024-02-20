@@ -20,4 +20,24 @@ function getComputerChoice() {
     return result;
 }
 
+function playRound(playerSelection, computerSelection) {
+    let roundMessage;
 
+    playerSelection = playerSelection.toLowerCase();
+
+    if (playerSelection === computerSelection) {
+        result = `It's a tie! Both played ${playerSelection}`;
+    }
+
+    if (playerSelection !== computerSelection) {
+        if (playerSelection === "rock" && computerSelection === "paper" ||
+            playerSelection === "paper" && computerSelection === "scissors" ||
+            playerSelection === "scissors" && computerSelection === "rock") {
+            roundMessage = `You lost! The computer's ${computerSelection} beated your ${playerSelection}.`;
+        } else {
+            roundMessage = `You won! Your ${playerSelection} beated the computer's ${computerSelection}.`;
+        }
+    }
+
+    return roundMessage;
+}
