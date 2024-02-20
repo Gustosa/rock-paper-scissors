@@ -20,8 +20,21 @@ function getComputerChoice() {
     return result;
 }
 
-function playRound(playerSelection, computerSelection) {
-    let roundMessage;
+function getPlayerChoice() {
+    let userChoice = prompt("This is a rock-paper-scissors game! You will play a best of 5 against the computer. Choose a move to play against the computer.");
+
+    userChoice = userChoice.toLowerCase();
+
+    if (userChoice === "rock" || userChoice === "paper" || userChoice === "scissors") {
+        return userChoice;
+    } else {
+        alert("Please, enter a valid move (either rock, paper or scissors).");
+        getPlayerChoice();
+    }
+}
+
+function playRound(computerSelection, playerSelection) {
+    let roundResult;
 
     if (playerSelection === computerSelection) {
         result = `It's a tie! Both played ${playerSelection}`;
@@ -31,25 +44,50 @@ function playRound(playerSelection, computerSelection) {
         if (playerSelection === "rock" && computerSelection === "paper" ||
             playerSelection === "paper" && computerSelection === "scissors" ||
             playerSelection === "scissors" && computerSelection === "rock") {
-            roundMessage = `You lost! The computer's ${computerSelection} beated your ${playerSelection}.`;
+            roundResult = "defeat";
+            console.log(`You lost! The computer's ${computerSelection} beated your ${playerSelection}.`);
         } else {
-            roundMessage = `You won! Your ${playerSelection} beated the computer's ${computerSelection}.`;
+            console.log(`You won! Your ${playerSelection} beated the computer's ${computerSelection}.`);
+            roundResult = "win";
         }
     }
 
-    return roundMessage;
+    return roundResult;
 }
 
-function getUserChoice() {
-    let userChoice = prompt("This is a rock-paper-scissors game! Choose a move to play against the computer.");
+function playGame() {
+    let result;
 
-    userChoice = userChoice.toLowerCase();
-    console.log(userChoice)
+    let defeatCounter = 0;
+    let winCounter = 0;
 
-    if (userChoice === "rock" || userChoice === "paper" || userChoice === "scissors") {
-        return userChoice;
-    } else {
-        alert("Please, enter a valid move (either rock, paper or scissors).");
-        getUserChoice();
+    let computerSelection;
+    let playerSelection;
+
+    while (winCounter < 3 && defeatCounter < 3) {
+        computerSelection = getComputerChoice();
+        playerSelection = getPlayerChoice();
+
+        roundResult = playRound(computerSelection, playerSelection);
+
+        if (roundResult === "defeat") {
+            defeatCounter++;
+        }
+
+        if (roundResult === "win") {
+            winCounter++;
+        }
     }
+
+    if (defeatCounter === 3) {
+        result = `You lost! Total wins: ${winCounter}`;
+    }
+
+    if (winCounter === 3) {
+        result = `You won! Hurray! Total losses: ${defeatCounter}`;
+    }
+
+    return result;
 }
+
+console.log(playGame());
